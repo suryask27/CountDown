@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        #countdown {
+            font-size: 32px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+        @keyframes blink {
+            50% { opacity: 0.6; }
+        }
+        .countdown-animation {
+            animation: blink 1s infinite alternate;
+        }
+        #birthday-message {
+            font-size: 40px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ffd700;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2 id="advance-message">🎂 Advance Happy Birthday, <span id="changing-name"></span> 🎉</h2>
+    <h2>🎂 Countdown to Birthday - April 9, 2025, 12:00 PM 🎉</h2>
+    <div id="countdown" class="countdown-animation"></div>
+    <h4 id="birthday-message"></h4>
+
+    <script>
+        var names = ["Aishu!!", "Aishwaraya" , "Dear" ,"Mine","ThangaPulla", "Sweetie", "Dear", "Angel","Pookie","Darling" ,"SweatHeart","Honey!!!","Treasure","Thangoooo","Azhaguuuu!!!!!!"];
+        var nameIndex = 0;
+
+        function updateCountdown() {
+            var countdownElement = document.getElementById("countdown");
+            var messageElement = document.getElementById("birthday-message");
+            var eventDate = new Date("April 9, 2025 12:00:00").getTime();
+            var now = new Date().getTime();
+            var timeLeft = eventDate - now;
+
+            if (timeLeft > 0) {
+                var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                countdownElement.innerHTML = `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+            } else {
+                countdownElement.style.display = "none"; // Hide countdown
+                messageElement.style.display = "block"; // Show birthday message
+                updateName(); // Call function to update name every second
+            }
+        }
+
+        function updateName() {
+            var messageElement = document.getElementById("birthday-message");
+            var changingNameElement = document.getElementById("changing-name");
+            
+            messageElement.innerHTML = `🎂 Happy Birthday ${names[nameIndex]} 🎉`;
+            changingNameElement.innerHTML = names[nameIndex];
+            
+            nameIndex = (nameIndex + 1) % names.length; // Rotate names
+            setTimeout(updateName, 1000); // Change name every second
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call to avoid delay
+        updateName(); // Start name change immediately
+    </script>
+</body>
+</html>
